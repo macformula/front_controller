@@ -29,8 +29,8 @@
  *              ..
  */
 
-#ifndef INC_CANAL_FC_MESSAGES_H_
-#define INC_CANAL_FC_MESSAGES_H_
+#ifndef INC_CANAL_MESSAGES_H_
+#define INC_CANAL_MESSAGES_H_
 
  /*********************************************************
  *                      INCLUDES
@@ -719,4 +719,4 @@ TeCanALRet GetTxDataLength(TeMessageID *ID, uint32_t *dlc);
 TeCanALRet MarshalBinary(TeMessageID *ID, uint8_t* rawData);
 TeCanALRet UnmarshalBinary(uint32_t *ID, uint8_t* txData);
 
-#endif /* INC_CANAL_FC_MESSAGES_H_ */
+#endif /* INC_CANAL_MESSAGES_H_ */

@@ -29,10 +29,10 @@
 #include "canal.h"
 #include "adc.h"
 #include "rtscheduler.h"
-#include "canal_fc_messages.h"
 #include "controller_autogen.h"
 #include "rtwtypes.h"
 #include "timers_pwm.h"
+#include "canal_messages.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -114,7 +114,7 @@ RtScheduler_tasks tasks = {
 		setDigitalOutputs,
 	},
 	[eTASK2_500MS] = {
-			setPWMOutputs,
+		setPWMOutputs,
 	},
 };
 /* USER CODE END 0 */
