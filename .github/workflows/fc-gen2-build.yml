@@ -12,11 +12,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout front_controller
+      uses: actions/checkout@v3
+      with:
+          submodules: recursive
+    
+    - name: Initialize and update submodules
+      run: |
+        git submodule init
+        git submodule update
+
+    # - name: Restore Docker cache
+    #   uses: actions/cache@v2
+    #   with:
+    #     path: /var/lib/docker
+    #     key: docker-cache-${{ runner.os }}-${{ hashFiles('**/Dockerfile') }}
+
     - name: Build docker image 
       working-directory: FC_GEN2
       run: docker build -t fedora-arm-embedded-dev --build-arg UID=`id -u` --build-arg GID=`id -g` --build-arg USERNAME=`id -un` --build-arg GROUPNAME=`id -gn` .
+
     - name: Build FC_GEN2
       working-directory: FC_GEN2
       run: docker run --rm -v "$(pwd):/workdir" -w/workdir fedora-arm-embedded-dev bash -lc "make -j8"
-
+    
+    # - name: Save Docker cache
+    #   uses: actions/cache@v2
+    #   with:
+    #     path: /var/lib/docker
+    #     key: docker-cache-${{ runner.os }}-${{ hashFiles('**/Dockerfile') }}
