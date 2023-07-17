@@ -22,11 +22,11 @@ jobs:
         git submodule init
         git submodule update
 
-    # - name: Restore Docker cache
-    #   uses: actions/cache@v2
-    #   with:
-    #     path: /var/lib/docker
-    #     key: docker-cache-${{ runner.os }}-${{ hashFiles('**/Dockerfile') }}
+    - name: Restore Docker cache
+      uses: actions/cache@v2
+      with:
+        path: /var/lib/docker
+        key: docker-cache-${{ runner.os }}-${{ hashFiles('**/Dockerfile') }}
 
     - name: Build docker image 
       working-directory: FC_GEN2
@@ -36,8 +36,8 @@ jobs:
       working-directory: FC_GEN2
       run: docker run --rm -v "$(pwd):/workdir" -w/workdir fedora-arm-embedded-dev bash -lc "make -j8"
     
-    # - name: Save Docker cache
-    #   uses: actions/cache@v2
-    #   with:
-    #     path: /var/lib/docker
-    #     key: docker-cache-${{ runner.os }}-${{ hashFiles('**/Dockerfile') }}
+    - name: Save Docker cache
+      uses: actions/cache@v2
+      with:
+        path: /var/lib/docker
+        key: docker-cache-${{ runner.os }}-${{ hashFiles('**/Dockerfile') }}
