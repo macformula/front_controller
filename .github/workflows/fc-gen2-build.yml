@@ -15,7 +15,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: Build docker image 
       working-directory: FC_GEN2
-      run: docker build fedora-arm-embedded-dev --build-arg UID=`id -u` --build-arg GID=`id -g` --build-arg USERNAME=`id -un` --build-arg GROUPNAME=`id -gn`
+      run: docker build -t fedora-arm-embedded-dev --build-arg UID=`id -u` --build-arg GID=`id -g` --build-arg USERNAME=`id -un` --build-arg GROUPNAME=`id -gn` .
     - name: Build FC_GEN2
       working-directory: FC_GEN2
       run: docker run --rm -v "$(pwd):/workdir" -w/workdir fedora-arm-embedded-dev bash -lc "make -j8"
