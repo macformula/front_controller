@@ -14,5 +14,5 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build FC_GEN2 
-      working-directory: front_controller/FC_GEN2
+      working-directory: FC_GEN2
       run: make build-container
