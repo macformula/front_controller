@@ -1,0 +1,9 @@
+[submodule "FC_GEN2/Modules/comms_manager"]
+	path = FC_GEN2/Modules/comms_manager
+	url = git@github.com:macformula/comms_manager.git
+[submodule "FC_GEN2/Modules/peripheral_libs"]
+	path = FC_GEN2/Modules/peripheral_libs
+	url = git@github.com:macformula/peripheral_libs.git
+[submodule "FC_GEN2/Modules/vehicle_control_system"]
+	path = FC_GEN2/Modules/vehicle_control_system
+	url = git@github.com:macformula/vehicle_control_system.git

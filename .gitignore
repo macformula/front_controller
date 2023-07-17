@@ -67,4 +67,10 @@ local.properties
 # Spring Boot Tooling
 .sts4-cache/
 
+# cmake build folder
+build/
+
+# vscode settings
+.vscode/
+
 # End of https://www.toptal.com/developers/gitignore/api/eclipse
