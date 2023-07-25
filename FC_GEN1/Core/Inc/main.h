@@ -91,8 +91,8 @@ void Error_Handler(void);
 #define START_BUTTON_N_GPIO_Port GPIOG
 #define VEH_CAN_RX_Pin GPIO_PIN_8
 #define VEH_CAN_RX_GPIO_Port GPIOA
-#define PT2_CAN_RX_Pin GPIO_PIN_11
-#define PT2_CAN_RX_GPIO_Port GPIOA
+#define PT1_CAN_RX_Pin GPIO_PIN_11
+#define PT1_CAN_RX_GPIO_Port GPIOA
 #define PT1_CAN_TX_Pin GPIO_PIN_12
 #define PT1_CAN_TX_GPIO_Port GPIOA
 #define VEH_CAN_TX_Pin GPIO_PIN_15
@@ -101,10 +101,6 @@ void Error_Handler(void);
 #define GPS_UART_TX_GPIO_Port GPIOD
 #define GPS_UART_RX_Pin GPIO_PIN_6
 #define GPS_UART_RX_GPIO_Port GPIOD
-#define PT1_CAN_RX_Pin GPIO_PIN_5
-#define PT1_CAN_RX_GPIO_Port GPIOB
-#define PT2_CAN_TX_Pin GPIO_PIN_6
-#define PT2_CAN_TX_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
