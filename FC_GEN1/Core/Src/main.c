@@ -616,71 +616,71 @@ void readFromAdc() {
 }
 
 void setControlSystemInputs() {
-  controller_autogen_U.AMK_ActualVelocity_R = AMK1_ActualValues1.AMK_ActualVelocity;
-  controller_autogen_U.AMK_MagnetizingCurrent_R = AMK1_ActualValues1.AMK_MagnetizingCurrent;
-  controller_autogen_U.AMK_TorqueCurrent_R = AMK1_ActualValues1.AMK_TorqueCurrent;
-  controller_autogen_U.AMK_bDcOn_R = AMK1_ActualValues1.AMK_bDcOn;
-  controller_autogen_U.AMK_bDerating_R = AMK1_ActualValues1.AMK_bDerating;
-  controller_autogen_U.AMK_bError_R = AMK1_ActualValues1.AMK_bError;
-  controller_autogen_U.AMK_bInverterOn_R = AMK1_ActualValues1.AMK_bInverterOn;
-  controller_autogen_U.AMK_bQuitDcOn_R = AMK1_ActualValues1.AMK_bQuitDcOn;
-  controller_autogen_U.AMK_bQuitInverterOn_R = AMK1_ActualValues1.AMK_bQuitInverterOn;
-  controller_autogen_U.AMK_bSystemReady_R = AMK1_ActualValues1.AMK_bSystemReady;
-  controller_autogen_U.AMK_bWarn_R = AMK1_ActualValues1.AMK_bWarn;
-  controller_autogen_U.AMK_ErrorInfo_R = AMK1_ActualValues2.AMK_ErrorInfo;
-  controller_autogen_U.AMK_TempIGBT_R = AMK1_ActualValues2.AMK_TempIGBT;
-  controller_autogen_U.AMK_TempInverter_R = AMK1_ActualValues2.AMK_TempInverter;
-  controller_autogen_U.AMK_TempMotor_R = AMK1_ActualValues2.AMK_TempMotor;
-  controller_autogen_U.AMK_ActualVelocity_L = AMK0_ActualValues1.AMK_ActualVelocity;
-  controller_autogen_U.AMK_MagnetizingCurrent_L = AMK0_ActualValues1.AMK_MagnetizingCurrent;
-  controller_autogen_U.AMK_TorqueCurrent_L = AMK0_ActualValues1.AMK_TorqueCurrent;
-  controller_autogen_U.AMK_bDcOn_L = AMK0_ActualValues1.AMK_bDcOn;
-  controller_autogen_U.AMK_bDerating_L = AMK0_ActualValues1.AMK_bDerating;
-  controller_autogen_U.AMK_bError_L = AMK0_ActualValues1.AMK_bError;
-  controller_autogen_U.AMK_bInverterOn_L = AMK0_ActualValues1.AMK_bInverterOn;
-  controller_autogen_U.AMK_bQuitDcOn_L = AMK0_ActualValues1.AMK_bQuitDcOn;
-  controller_autogen_U.AMK_bQuitInverterOn_L = AMK0_ActualValues1.AMK_bQuitInverterOn;
-  controller_autogen_U.AMK_bSystemReady_L = AMK0_ActualValues1.AMK_bSystemReady;
-  controller_autogen_U.AMK_bWarn_L = AMK0_ActualValues1.AMK_bWarn;
-  controller_autogen_U.AMK_ErrorInfo_L = AMK0_ActualValues2.AMK_ErrorInfo;
-  controller_autogen_U.AMK_TempIGBT_L = AMK0_ActualValues2.AMK_TempIGBT;
-  controller_autogen_U.AMK_TempInverter_L = AMK0_ActualValues2.AMK_TempInverter;
-  controller_autogen_U.AMK_TempMotor_L = AMK0_ActualValues2.AMK_TempMotor;
-  controller_autogen_U.DI_V_SteeringAngle = adc_values[STEERING_ANGLE_SENSOR_IDX];
-  controller_autogen_U.DI_V_BrakePedalPos = adc_values[BPPS_BUFFERED_IDX];
-  controller_autogen_U.DI_b_DriverButton = HAL_GPIO_ReadPin(START_BUTTON_N_GPIO_Port, START_BUTTON_N_Pin);
-  controller_autogen_U.DI_V_AccelPedalPos1 = adc_values[APPS1_IDX];
-  controller_autogen_U.DI_V_AccelPedalPos2 = adc_values[APPS2_IDX];
-  controller_autogen_U.BM_b_prechrgContactorSts = Contactor_Feedback.Pack_Precharge_Feedback;
-  controller_autogen_U.BM_b_HVposContactorSts = Contactor_Feedback.Pack_Positive_Feedback;
-  controller_autogen_U.BM_b_HVnegContactorSts = Contactor_Feedback.Pack_Negative_Feedback;
+  rtU.AMK_ActualVelocity_R = AMK1_ActualValues1.AMK_ActualVelocity;
+  rtU.AMK_MagnetizingCurrent_R = AMK1_ActualValues1.AMK_MagnetizingCurrent;
+  rtU.AMK_TorqueCurrent_R = AMK1_ActualValues1.AMK_TorqueCurrent;
+  rtU.AMK_bDcOn_R = AMK1_ActualValues1.AMK_bDcOn;
+  rtU.AMK_bDerating_R = AMK1_ActualValues1.AMK_bDerating;
+  rtU.AMK_bError_R = AMK1_ActualValues1.AMK_bError;
+  rtU.AMK_bInverterOn_R = AMK1_ActualValues1.AMK_bInverterOn;
+  rtU.AMK_bQuitDcOn_R = AMK1_ActualValues1.AMK_bQuitDcOn;
+  rtU.AMK_bQuitInverterOn_R = AMK1_ActualValues1.AMK_bQuitInverterOn;
+  rtU.AMK_bSystemReady_R = AMK1_ActualValues1.AMK_bSystemReady;
+  rtU.AMK_bWarn_R = AMK1_ActualValues1.AMK_bWarn;
+  rtU.AMK_ErrorInfo_R = AMK1_ActualValues2.AMK_ErrorInfo;
+  rtU.AMK_TempIGBT_R = AMK1_ActualValues2.AMK_TempIGBT;
+  rtU.AMK_TempInverter_R = AMK1_ActualValues2.AMK_TempInverter;
+  rtU.AMK_TempMotor_R = AMK1_ActualValues2.AMK_TempMotor;
+  rtU.AMK_ActualVelocity_L = AMK0_ActualValues1.AMK_ActualVelocity;
+  rtU.AMK_MagnetizingCurrent_L = AMK0_ActualValues1.AMK_MagnetizingCurrent;
+  rtU.AMK_TorqueCurrent_L = AMK0_ActualValues1.AMK_TorqueCurrent;
+  rtU.AMK_bDcOn_L = AMK0_ActualValues1.AMK_bDcOn;
+  rtU.AMK_bDerating_L = AMK0_ActualValues1.AMK_bDerating;
+  rtU.AMK_bError_L = AMK0_ActualValues1.AMK_bError;
+  rtU.AMK_bInverterOn_L = AMK0_ActualValues1.AMK_bInverterOn;
+  rtU.AMK_bQuitDcOn_L = AMK0_ActualValues1.AMK_bQuitDcOn;
+  rtU.AMK_bQuitInverterOn_L = AMK0_ActualValues1.AMK_bQuitInverterOn;
+  rtU.AMK_bSystemReady_L = AMK0_ActualValues1.AMK_bSystemReady;
+  rtU.AMK_bWarn_L = AMK0_ActualValues1.AMK_bWarn;
+  rtU.AMK_ErrorInfo_L = AMK0_ActualValues2.AMK_ErrorInfo;
+  rtU.AMK_TempIGBT_L = AMK0_ActualValues2.AMK_TempIGBT;
+  rtU.AMK_TempInverter_L = AMK0_ActualValues2.AMK_TempInverter;
+  rtU.AMK_TempMotor_L = AMK0_ActualValues2.AMK_TempMotor;
+  rtU.DI_V_SteeringAngle = adc_values[STEERING_ANGLE_SENSOR_IDX];
+  rtU.DI_V_BrakePedalPos = adc_values[BPPS_BUFFERED_IDX];
+  rtU.DI_b_DriverButton = HAL_GPIO_ReadPin(START_BUTTON_N_GPIO_Port, START_BUTTON_N_Pin);
+  rtU.DI_V_AccelPedalPos1 = adc_values[APPS1_IDX];
+  rtU.DI_V_AccelPedalPos2 = adc_values[APPS2_IDX];
+  rtU.BM_b_prechrgContactorSts = Contactor_Feedback.Pack_Precharge_Feedback;
+  rtU.BM_b_HVposContactorSts = Contactor_Feedback.Pack_Positive_Feedback;
+  rtU.BM_b_HVnegContactorSts = Contactor_Feedback.Pack_Negative_Feedback;
 }
 
 void getControlSystemOutputs() {
-  AMK1_SetPoints1.AMK_bInverterOn = controller_autogen_Y.AMK_bInverterOn_tx_R;
-  AMK1_SetPoints1.AMK_bDcOn = controller_autogen_Y.AMK_bDcOn_tx_R;
-  AMK1_SetPoints1.AMK_bEnable = controller_autogen_Y.AMK_bEnable_R;
-  AMK1_SetPoints1.AMK_bErrorReset = controller_autogen_Y.AMK_bErrorReset_R;
-  AMK1_SetPoints1.AMK_TargetVelocity = controller_autogen_Y.AMK_TargetVelocity_R;
-  AMK1_SetPoints1.AMK_TorqueLimitPositiv = controller_autogen_Y.AMK_TorqueLimitPositiv_R;
-  AMK1_SetPoints1.AMK_TorqueLimitNegativ = controller_autogen_Y.AMK_TorqueLimitNegativ_R;
+  AMK1_SetPoints1.AMK_bInverterOn = rtY.AMK_bInverterOn_tx_R;
+  AMK1_SetPoints1.AMK_bDcOn = rtY.AMK_bDcOn_tx_R;
+  AMK1_SetPoints1.AMK_bEnable = rtY.AMK_bEnable_R;
+  AMK1_SetPoints1.AMK_bErrorReset = rtY.AMK_bErrorReset_R;
+  AMK1_SetPoints1.AMK_TargetVelocity = rtY.AMK_TargetVelocity_R;
+  AMK1_SetPoints1.AMK_TorqueLimitPositiv = rtY.AMK_TorqueLimitPositiv_R;
+  AMK1_SetPoints1.AMK_TorqueLimitNegativ = rtY.AMK_TorqueLimitNegativ_R;
 
-  AMK0_SetPoints1.AMK_bInverterOn = controller_autogen_Y.AMK_bInverterOn_tx_L;
-  AMK0_SetPoints1.AMK_bDcOn = controller_autogen_Y.AMK_bDcOn_tx_L;
-  AMK0_SetPoints1.AMK_bEnable = controller_autogen_Y.AMK_bEnable_L;
-  AMK0_SetPoints1.AMK_bErrorReset = controller_autogen_Y.AMK_bErrorReset_L;
-  AMK0_SetPoints1.AMK_TargetVelocity = controller_autogen_Y.AMK_TargetVelocity_L;
-  AMK0_SetPoints1.AMK_TorqueLimitPositiv = controller_autogen_Y.AMK_TorqueLimitPositiv_L;
-  AMK0_SetPoints1.AMK_TorqueLimitNegativ = controller_autogen_Y.AMK_TorqueLimitNegativ_L;
+  AMK0_SetPoints1.AMK_bInverterOn = rtY.AMK_bInverterOn_tx_L;
+  AMK0_SetPoints1.AMK_bDcOn = rtY.AMK_bDcOn_tx_L;
+  AMK0_SetPoints1.AMK_bEnable = rtY.AMK_bEnable_L;
+  AMK0_SetPoints1.AMK_bErrorReset = rtY.AMK_bErrorReset_L;
+  AMK0_SetPoints1.AMK_TargetVelocity = rtY.AMK_TargetVelocity_L;
+  AMK0_SetPoints1.AMK_TorqueLimitPositiv = rtY.AMK_TorqueLimitPositiv_L;
+  AMK0_SetPoints1.AMK_TorqueLimitNegativ = rtY.AMK_TorqueLimitNegativ_L;
 
-  Contactor_States.Pack_Precharge = controller_autogen_Y.BM_b_prechargeContactorCMD;
-  Contactor_States.Pack_Positive = controller_autogen_Y.BM_b_HVposContactorCMD;
-  Contactor_States.Pack_Negative = controller_autogen_Y.BM_b_HVnegContactorCMD;
+  Contactor_States.Pack_Precharge = rtY.BM_b_prechargeContactorCMD;
+  Contactor_States.Pack_Positive = rtY.BM_b_HVposContactorCMD;
+  Contactor_States.Pack_Negative = rtY.BM_b_HVnegContactorCMD;
 
-  driverSpeakerEn = controller_autogen_Y.DI_b_driverSpeaker;
-  brakeLightEn = controller_autogen_Y.DI_b_brakeLightEn;
-  status_led_pwm.duty = controller_autogen_Y.DI_p_PWMstatusLightCycle;
-  tim2.freq_hz = controller_autogen_Y.DI_p_PWMstatusLightFreq;
+  driverSpeakerEn = rtY.DI_b_driverSpeaker;
+  brakeLightEn = rtY.DI_b_brakeLightEn;
+  status_led_pwm.duty = rtY.DI_p_PWMstatusLightCycle;
+  tim2.freq_hz = rtY.DI_p_PWMstatusLightFreq;
 }
 
 void setDigitalOutputs() {
