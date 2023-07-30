@@ -7,13 +7,15 @@
  *
  * Code generated for Simulink model 'controller_autogen'.
  *
- * Model version                  : 1.31
+ * Model version                  : 1.36
  * Simulink Coder version         : 9.8 (R2022b) 13-May-2022
- * C/C++ source code generated on : Sat Jun  3 19:31:01 2023
+ * C/C++ source code generated on : Sun Jul 30 16:53:44 2023
  *
  * Target selection: ert.tlc
- * Embedded hardware selection: Intel->x86-64 (Windows64)
- * Code generation objectives: Unspecified
+ * Embedded hardware selection: ARM Compatible->ARM Cortex-M
+ * Code generation objectives:
+ *    1. Execution efficiency
+ *    2. RAM efficiency
  * Validation result: Not run
  */
 
@@ -24,8 +26,6 @@
 #include "rtwtypes.h"
 #endif                                 /* controller_autogen_COMMON_INCLUDES_ */
 
-#include "controller_autogen_types.h"
-
 /* Macros for accessing real-time model data structure */
 #ifndef rtmGetErrorStatus
 #define rtmGetErrorStatus(rtm)         ((rtm)->errorStatus)
@@ -35,93 +35,201 @@
 #define rtmSetErrorStatus(rtm, val)    ((rtm)->errorStatus = (val))
 #endif
 
-/* Block states (default storage) for system '<S4>/LEFT_MOTOR' */
+#define controller_autogen_M           (rtM)
+
+/* Forward declaration for rtModel */
+typedef struct tag_RTM RT_MODEL;
+
+#ifndef DEFINED_TYPEDEF_FOR_MI_STATUSES_
+#define DEFINED_TYPEDEF_FOR_MI_STATUSES_
+
+typedef enum {
+  UNKNOWN = 0,                         /* Default value */
+  STS_INIT,
+  STARTUP,
+  READY,
+  RUNNING,
+  SHUTDOWN,
+  MI_STS_ERROR,
+  OFF
+} MI_STATUSES;
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_BM_STATUSES_
+#define DEFINED_TYPEDEF_FOR_BM_STATUSES_
+
+typedef enum {
+  BM_UNKNOWN = 0,                      /* Default value */
+  BM_INIT,
+  BM_IDLE,
+  BM_STARTUP,
+  INIT_PRECHARGE,
+  PRECHARGE,
+  BM_RUNNING,
+  ERR_PRECHARGE_CLOSED,
+  ERR_STARTUP,
+  ERR_INIT_PRECHARGE,
+  ERR_PRECHARGE,
+  ERR_RUNNING,
+  ERR_ALL_CLOSED,
+  ERR_HV_POSITIVE
+} BM_STATUSES;
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_DI_CMD_
+#define DEFINED_TYPEDEF_FOR_DI_CMD_
+
+typedef enum {
+  DI_CMD_INIT = 0,                     /* Default value */
+  READY_TO_DRIVE,
+  SYSTEM_ERROR,
+  DI_ERR_RESET
+} DI_CMD;
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_DI_STATUSES_
+#define DEFINED_TYPEDEF_FOR_DI_STATUSES_
+
+typedef enum {
+  DI_UNKNOWN = 0,                      /* Default value */
+  DI_STS_INIT,
+  DI_IDLE,
+  DI_STARTUP,
+  WAITING_FOR_DRVR,
+  DRV_START_REQ,
+  DI_RUNNING,
+  DI_ERROR
+} DI_STATUSES;
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_MI_CMD_
+#define DEFINED_TYPEDEF_FOR_MI_CMD_
+
+typedef enum {
+  CMD_INIT = 0,                        /* Default value */
+  IDLE,
+  CMD_STARTUP,
+  CMD_SHUTDOWN,
+  ERR_RESET
+} MI_CMD;
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_GOV_STATUSES_
+#define DEFINED_TYPEDEF_FOR_GOV_STATUSES_
+
+typedef enum {
+  GOV_INIT = 0,                        /* Default value */
+  GOV_STARTUP,
+  GOV_RUNNING,
+  HV_STARTUP_ERROR,
+  MOTOR_STARTUP_ERROR,
+  GOV_DI_ERROR,
+  HV_RUN_ERROR,
+  MOTOR_RUN_ERROR
+} GOV_STATUSES;
+
+#endif
+
+/* Block signals and states (default storage) for system '<S4>/LEFT_MOTOR' */
 typedef struct {
   uint8_T is_c1_motor_interface_lib;   /* '<S4>/LEFT_MOTOR' */
   uint8_T is_AMK_startup;              /* '<S4>/LEFT_MOTOR' */
   uint8_T is_AMK_errorReset;           /* '<S4>/LEFT_MOTOR' */
   uint8_T is_active_c1_motor_interface_li;/* '<S4>/LEFT_MOTOR' */
   uint8_T temporalCounter_i1;          /* '<S4>/LEFT_MOTOR' */
-} DW_LEFT_MOTOR_controller_auto_T;
+} DW_LEFT_MOTOR;
 
-/* Block signals (default storage) */
+/* Block signals and states (default storage) for system '<Root>' */
 typedef struct {
+  DW_LEFT_MOTOR sf_RIGHT_MOTOR;        /* '<S4>/RIGHT_MOTOR' */
+  DW_LEFT_MOTOR sf_LEFT_MOTOR;         /* '<S4>/LEFT_MOTOR' */
+  real32_T TappedDelay_X[10];          /* '<S29>/Tapped Delay' */
+  real32_T pedaltotorque;              /* '<S5>/%pedal to %torque' */
   MI_STATUSES MI_motorStatus;          /* '<S4>/RIGHT_MOTOR' */
   MI_STATUSES MI_motorStatus_b;        /* '<S4>/LEFT_MOTOR' */
-  MI_CMD GOV_e_miCmd;                  /* '<S3>/Chart' */
-  DI_STATUSES GOV_e_diSts;             /* '<S2>/Chart' */
-  DI_CMD GOV_e_diCmd;                  /* '<S3>/Chart' */
-  boolean_T b_ReadyToDrive;            /* '<S2>/Chart' */
-} B_controller_autogen_T;
-
-/* Block states (default storage) for system '<Root>' */
-typedef struct {
   MI_STATUSES Delay1_DSTATE;           /* '<S3>/Delay1' */
   MI_STATUSES Delay1_DSTATE_l;         /* '<S2>/Delay1' */
   MI_STATUSES Delay_DSTATE;            /* '<S4>/Delay' */
   BM_STATUSES Delay_DSTATE_f;          /* '<S3>/Delay' */
+  DI_CMD GOV_e_diCmd;                  /* '<S3>/Chart' */
+  DI_STATUSES GOV_e_diSts;             /* '<S2>/Chart' */
   DI_STATUSES Delay2_DSTATE;           /* '<S3>/Delay2' */
+  MI_CMD GOV_e_miCmd;                  /* '<S3>/Chart' */
   uint16_T motorStartCount;            /* '<S3>/Chart' */
   uint16_T temporalCounter_i1;         /* '<S2>/Chart' */
-  uint16_T temporalCounter_i1_b;       /* '<S1>/Chart1' */
-  uint16_T temporalCounter_i1_g;       /* '<S1>/Chart' */
-  uint8_T is_c3_controller_autogen;    /* '<S5>/Chart' */
-  uint8_T is_active_c3_controller_autogen;/* '<S5>/Chart' */
+  uint16_T temporalCounter_i1_a;       /* '<S1>/Chart1' */
+  uint16_T temporalCounter_i1_m;       /* '<S1>/Chart' */
+  uint8_T GOV_e_bmCmd;                 /* '<S3>/Chart' */
+  uint8_T is_c3_simp_vd_lib;           /* '<S5>/Chart' */
+  uint8_T is_active_c3_simp_vd_lib;    /* '<S5>/Chart' */
   uint8_T is_c1_governor_lib;          /* '<S3>/Chart' */
   uint8_T is_STARTUP;                  /* '<S3>/Chart' */
   uint8_T is_STARTUP_ERROR;            /* '<S3>/Chart' */
   uint8_T is_RUNNING_ERROR;            /* '<S3>/Chart' */
   uint8_T is_active_c1_governor_lib;   /* '<S3>/Chart' */
-  uint8_T is_c1_driver_interface_lib;  /* '<S2>/Chart' */
+  uint8_T is_c2_driver_interface_lib;  /* '<S2>/Chart' */
   uint8_T is_DI_running;               /* '<S2>/Chart' */
   uint8_T is_Ready_to_drive;           /* '<S2>/Chart' */
-  uint8_T is_active_c1_driver_interface_l;/* '<S2>/Chart' */
-  uint8_T is_c4_battery_monitor_lib;   /* '<S1>/Chart1' */
-  uint8_T is_active_c4_battery_monitor_li;/* '<S1>/Chart1' */
-  uint8_T is_c2_battery_monitor_lib;   /* '<S1>/Chart' */
-  uint8_T is_active_c2_battery_monitor_li;/* '<S1>/Chart' */
-  DW_LEFT_MOTOR_controller_auto_T sf_RIGHT_MOTOR;/* '<S4>/RIGHT_MOTOR' */
-  DW_LEFT_MOTOR_controller_auto_T sf_LEFT_MOTOR;/* '<S4>/LEFT_MOTOR' */
-} DW_controller_autogen_T;
+  uint8_T is_active_c2_driver_interface_l;/* '<S2>/Chart' */
+  uint8_T is_c5_battery_monitor_lib;   /* '<S1>/Chart1' */
+  uint8_T is_active_c5_battery_monitor_li;/* '<S1>/Chart1' */
+  uint8_T is_c4_battery_monitor_lib;   /* '<S1>/Chart' */
+  uint8_T is_active_c4_battery_monitor_li;/* '<S1>/Chart' */
+  boolean_T b_ReadyToDrive;            /* '<S2>/Chart' */
+} DW;
 
 /* Invariant block signals (default storage) */
 typedef struct {
-  const real32_T DataTypeConversion;   /* '<S12>/Data Type Conversion' */
-  const real32_T DataTypeConversion2;  /* '<S12>/Data Type Conversion2' */
-  const real32_T range;                /* '<S17>/Subtract' */
-  const real32_T DataTypeConversion_i; /* '<S13>/Data Type Conversion' */
-  const real32_T DataTypeConversion2_e;/* '<S13>/Data Type Conversion2' */
-  const real32_T range_l;              /* '<S19>/Subtract' */
-  const real32_T DataTypeConversion_d; /* '<S14>/Data Type Conversion' */
-  const real32_T DataTypeConversion2_b;/* '<S14>/Data Type Conversion2' */
-  const real32_T range_i;              /* '<S21>/Subtract' */
   const real32_T CastToSingle;         /* '<S4>/Cast To Single' */
   const real32_T CastToSingle2;        /* '<S4>/Cast To Single2' */
   const real32_T CastToSingle3;        /* '<S4>/Cast To Single3' */
   const real32_T CastToSingle5;        /* '<S4>/Cast To Single5' */
-} ConstB_controller_autogen_T;
+} ConstB;
 
 /* Constant parameters (default storage) */
 typedef struct {
+  /* Computed Parameter: AccelPedalPos1LUT_tableData
+   * Referenced by: '<S2>/AccelPedalPos1 LUT'
+   */
+  real32_T AccelPedalPos1LUT_tableData[100];
+
+  /* Computed Parameter: AccelPedalPos1LUT_bp01Data
+   * Referenced by: '<S2>/AccelPedalPos1 LUT'
+   */
+  real32_T AccelPedalPos1LUT_bp01Data[100];
+
   /* Pooled Parameter (Expression: [0 5 10 15 20 25 30 35 40 45 50 55 60 65 70 75 80 85 90 95 100])
-   * Referenced by:
-   *   '<S2>/AccelPedalPos1 LUT'
-   *   '<S2>/BrakePedalPos1 LUT1'
+   * Referenced by: '<S2>/BrakePedalPos1 LUT1'
    */
   real32_T pooled8[21];
-} ConstP_controller_autogen_T;
+
+  /* Computed Parameter: pedaltotorque_tableData
+   * Referenced by: '<S5>/%pedal to %torque'
+   */
+  real32_T pedaltotorque_tableData[101];
+
+  /* Computed Parameter: pedaltotorque_bp01Data
+   * Referenced by: '<S5>/%pedal to %torque'
+   */
+  real32_T pedaltotorque_bp01Data[101];
+} ConstP;
 
 /* External inputs (root inport signals with default storage) */
 typedef struct {
   boolean_T AMK_bReserve_R;            /* '<Root>/AMK_bReserve_R' */
   real_T DI_V_SteeringAngle;           /* '<Root>/DI_V_SteeringAngle' */
   real_T DI_V_BrakePedalPos;           /* '<Root>/DI_V_BrakePedalPos' */
-  real_T DI_b_DriverButton;            /* '<Root>/DI_b_DriverButton' */
+  boolean_T DI_b_DriverButton;         /* '<Root>/DI_b_DriverButton' */
   real_T DI_V_AccelPedalPos1;          /* '<Root>/DI_V_AccelPedalPos1' */
   real_T DI_V_AccelPedalPos2;          /* '<Root>/DI_V_AccelPedalPos2' */
-  real_T BM_b_prechrgContactorSts;     /* '<Root>/BM_b_prechrgContactorSts' */
-  real_T BM_b_HVposContactorSts;       /* '<Root>/BM_b_HVposContactorSts' */
-  real_T BM_b_HVnegContactorSts;       /* '<Root>/BM_b_HVnegContactorSts' */
+  boolean_T BM_b_prechrgContactorSts;  /* '<Root>/BM_b_prechrgContactorSts' */
+  boolean_T BM_b_HVposContactorSts;    /* '<Root>/BM_b_HVposContactorSts' */
+  boolean_T BM_b_HVnegContactorSts;    /* '<Root>/BM_b_HVnegContactorSts' */
   boolean_T AMK_bSystemReady_R;        /* '<Root>/AMK_bSystemReady_R' */
   boolean_T AMK_bError_R;              /* '<Root>/AMK_bError_R' */
   boolean_T AMK_bWarn_R;               /* '<Root>/AMK_bWarn_R' */
@@ -153,7 +261,7 @@ typedef struct {
   int16_T AMK_ActualVelocity_L;        /* '<Root>/AMK_ActualVelocity_L' */
   int16_T AMK_TorqueCurrent_L;         /* '<Root>/AMK_TorqueCurrent_L' */
   int16_T AMK_MagnetizingCurrent_L;    /* '<Root>/AMK_MagnetizingCurrent_L' */
-} ExtU_controller_autogen_T;
+} ExtU;
 
 /* External outputs (root outports fed by signals with default storage) */
 typedef struct {
@@ -178,53 +286,49 @@ typedef struct {
   real32_T DI_b_brakeLightEn;          /* '<Root>/DI_b_brakeLightEn' */
   real_T DI_p_PWMstatusLightCycle;     /* '<Root>/DI_p_PWMstatusLightCycle' */
   real_T DI_p_PWMstatusLightFreq;      /* '<Root>/DI_p_PWMstatusLightFreq' */
-} ExtY_controller_autogen_T;
+} ExtY;
 
 /* Real-time Model Data Structure */
-struct tag_RTM_controller_autogen_T {
+struct tag_RTM {
   const char_T * volatile errorStatus;
 };
 
-/* Block signals (default storage) */
-extern B_controller_autogen_T controller_autogen_B;
-
-/* Block states (default storage) */
-extern DW_controller_autogen_T controller_autogen_DW;
+/* Block signals and states (default storage) */
+extern DW rtDW;
 
 /* External inputs (root inport signals with default storage) */
-extern ExtU_controller_autogen_T controller_autogen_U;
+extern ExtU rtU;
 
 /* External outputs (root outports fed by signals with default storage) */
-extern ExtY_controller_autogen_T controller_autogen_Y;
-extern const ConstB_controller_autogen_T controller_autogen_ConstB;/* constant block i/o */
+extern ExtY rtY;
+extern const ConstB rtConstB;          /* constant block i/o */
 
 /* Constant parameters (default storage) */
-extern const ConstP_controller_autogen_T controller_autogen_ConstP;
+extern const ConstP rtConstP;
 
 /* Model entry point functions */
 extern void controller_autogen_initialize(void);
 extern void controller_autogen_step(void);
-extern void controller_autogen_terminate(void);
 
 /* Real-time Model object */
-extern RT_MODEL_controller_autogen_T *const controller_autogen_M;
+extern RT_MODEL *const rtM;
 
 /*-
  * These blocks were eliminated from the model due to optimizations:
  *
  * Block '<S2>/Constant2' : Unused code path elimination
  * Block '<S2>/Switch1' : Unused code path elimination
- * Block '<S16>/FixPt Data Type Duplicate' : Unused code path elimination
- * Block '<S18>/FixPt Data Type Duplicate' : Unused code path elimination
- * Block '<S20>/FixPt Data Type Duplicate' : Unused code path elimination
- * Block '<S15>/Data Type Conversion' : Unused code path elimination
- * Block '<S15>/Data Type Conversion1' : Unused code path elimination
- * Block '<S15>/Data Type Conversion2' : Unused code path elimination
- * Block '<S22>/FixPt Data Type Duplicate' : Unused code path elimination
- * Block '<S23>/Divide' : Unused code path elimination
- * Block '<S23>/Gain' : Unused code path elimination
- * Block '<S23>/Subtract' : Unused code path elimination
- * Block '<S23>/Subtract1' : Unused code path elimination
+ * Block '<S17>/FixPt Data Type Duplicate' : Unused code path elimination
+ * Block '<S19>/FixPt Data Type Duplicate' : Unused code path elimination
+ * Block '<S21>/FixPt Data Type Duplicate' : Unused code path elimination
+ * Block '<S16>/Data Type Conversion' : Unused code path elimination
+ * Block '<S16>/Data Type Conversion1' : Unused code path elimination
+ * Block '<S16>/Data Type Conversion2' : Unused code path elimination
+ * Block '<S23>/FixPt Data Type Duplicate' : Unused code path elimination
+ * Block '<S24>/Divide' : Unused code path elimination
+ * Block '<S24>/Gain' : Unused code path elimination
+ * Block '<S24>/Subtract' : Unused code path elimination
+ * Block '<S24>/Subtract1' : Unused code path elimination
  */
 
 /*-
@@ -249,26 +353,28 @@ extern RT_MODEL_controller_autogen_T *const controller_autogen_M;
  * '<S5>'   : 'controller_autogen/simp_vd_interface'
  * '<S6>'   : 'controller_autogen/battery_monitor/Chart'
  * '<S7>'   : 'controller_autogen/battery_monitor/Chart1'
- * '<S8>'   : 'controller_autogen/driver_interface/Chart'
- * '<S9>'   : 'controller_autogen/driver_interface/If Action Subsystem'
- * '<S10>'  : 'controller_autogen/driver_interface/If Action Subsystem1'
- * '<S11>'  : 'controller_autogen/driver_interface/If Action Subsystem2'
- * '<S12>'  : 'controller_autogen/driver_interface/potentiometerProcessing'
- * '<S13>'  : 'controller_autogen/driver_interface/potentiometerProcessing1'
- * '<S14>'  : 'controller_autogen/driver_interface/potentiometerProcessing2'
- * '<S15>'  : 'controller_autogen/driver_interface/potentiometerProcessing3'
- * '<S16>'  : 'controller_autogen/driver_interface/potentiometerProcessing/Interval Test Dynamic'
- * '<S17>'  : 'controller_autogen/driver_interface/potentiometerProcessing/convertToPercent'
- * '<S18>'  : 'controller_autogen/driver_interface/potentiometerProcessing1/Interval Test Dynamic'
- * '<S19>'  : 'controller_autogen/driver_interface/potentiometerProcessing1/convertToPercent'
- * '<S20>'  : 'controller_autogen/driver_interface/potentiometerProcessing2/Interval Test Dynamic'
- * '<S21>'  : 'controller_autogen/driver_interface/potentiometerProcessing2/convertToPercent'
- * '<S22>'  : 'controller_autogen/driver_interface/potentiometerProcessing3/Interval Test Dynamic'
- * '<S23>'  : 'controller_autogen/driver_interface/potentiometerProcessing3/convertToPercent'
- * '<S24>'  : 'controller_autogen/governor/Chart'
- * '<S25>'  : 'controller_autogen/motor_interface/LEFT_MOTOR'
- * '<S26>'  : 'controller_autogen/motor_interface/RIGHT_MOTOR'
- * '<S27>'  : 'controller_autogen/simp_vd_interface/Chart'
+ * '<S8>'   : 'controller_autogen/driver_interface/Accelerator plausibility check'
+ * '<S9>'   : 'controller_autogen/driver_interface/Chart'
+ * '<S10>'  : 'controller_autogen/driver_interface/If Action Subsystem'
+ * '<S11>'  : 'controller_autogen/driver_interface/If Action Subsystem1'
+ * '<S12>'  : 'controller_autogen/driver_interface/If Action Subsystem2'
+ * '<S13>'  : 'controller_autogen/driver_interface/potentiometerProcessing'
+ * '<S14>'  : 'controller_autogen/driver_interface/potentiometerProcessing1'
+ * '<S15>'  : 'controller_autogen/driver_interface/potentiometerProcessing2'
+ * '<S16>'  : 'controller_autogen/driver_interface/potentiometerProcessing3'
+ * '<S17>'  : 'controller_autogen/driver_interface/potentiometerProcessing/Interval Test Dynamic'
+ * '<S18>'  : 'controller_autogen/driver_interface/potentiometerProcessing/convertToPercent'
+ * '<S19>'  : 'controller_autogen/driver_interface/potentiometerProcessing1/Interval Test Dynamic'
+ * '<S20>'  : 'controller_autogen/driver_interface/potentiometerProcessing1/convertToPercent'
+ * '<S21>'  : 'controller_autogen/driver_interface/potentiometerProcessing2/Interval Test Dynamic'
+ * '<S22>'  : 'controller_autogen/driver_interface/potentiometerProcessing2/convertToPercent'
+ * '<S23>'  : 'controller_autogen/driver_interface/potentiometerProcessing3/Interval Test Dynamic'
+ * '<S24>'  : 'controller_autogen/driver_interface/potentiometerProcessing3/convertToPercent'
+ * '<S25>'  : 'controller_autogen/governor/Chart'
+ * '<S26>'  : 'controller_autogen/motor_interface/LEFT_MOTOR'
+ * '<S27>'  : 'controller_autogen/motor_interface/RIGHT_MOTOR'
+ * '<S28>'  : 'controller_autogen/simp_vd_interface/Chart'
+ * '<S29>'  : 'controller_autogen/simp_vd_interface/Running Avg'
  */
 #endif                                 /* RTW_HEADER_controller_autogen_h_ */
 
