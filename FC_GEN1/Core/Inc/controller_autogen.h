@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'controller_autogen'.
  *
- * Model version                  : 1.36
+ * Model version                  : 1.39
  * Simulink Coder version         : 9.8 (R2022b) 13-May-2022
- * C/C++ source code generated on : Sun Jul 30 16:53:44 2023
+ * C/C++ source code generated on : Mon Jul 31 13:29:08 2023
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex-M
@@ -150,18 +150,20 @@ typedef struct {
   DW_LEFT_MOTOR sf_LEFT_MOTOR;         /* '<S4>/LEFT_MOTOR' */
   real32_T TappedDelay_X[10];          /* '<S29>/Tapped Delay' */
   real32_T pedaltotorque;              /* '<S5>/%pedal to %torque' */
+  real32_T Delay3_DSTATE;              /* '<S2>/Delay3' */
   MI_STATUSES MI_motorStatus;          /* '<S4>/RIGHT_MOTOR' */
   MI_STATUSES MI_motorStatus_b;        /* '<S4>/LEFT_MOTOR' */
   MI_STATUSES Delay1_DSTATE;           /* '<S3>/Delay1' */
-  MI_STATUSES Delay1_DSTATE_l;         /* '<S2>/Delay1' */
+  MI_STATUSES Delay2_DSTATE;           /* '<S2>/Delay2' */
   MI_STATUSES Delay_DSTATE;            /* '<S4>/Delay' */
   BM_STATUSES Delay_DSTATE_f;          /* '<S3>/Delay' */
   DI_CMD GOV_e_diCmd;                  /* '<S3>/Chart' */
-  DI_STATUSES GOV_e_diSts;             /* '<S2>/Chart' */
-  DI_STATUSES Delay2_DSTATE;           /* '<S3>/Delay2' */
+  DI_STATUSES GOV_e_diSts;             /* '<S2>/Chart1' */
+  DI_STATUSES Delay2_DSTATE_a;         /* '<S3>/Delay2' */
   MI_CMD GOV_e_miCmd;                  /* '<S3>/Chart' */
+  GOV_STATUSES GOV_e_govSts;           /* '<S3>/Chart' */
   uint16_T motorStartCount;            /* '<S3>/Chart' */
-  uint16_T temporalCounter_i1;         /* '<S2>/Chart' */
+  uint16_T temporalCounter_i1;         /* '<S2>/Chart1' */
   uint16_T temporalCounter_i1_a;       /* '<S1>/Chart1' */
   uint16_T temporalCounter_i1_m;       /* '<S1>/Chart' */
   uint8_T GOV_e_bmCmd;                 /* '<S3>/Chart' */
@@ -172,15 +174,15 @@ typedef struct {
   uint8_T is_STARTUP_ERROR;            /* '<S3>/Chart' */
   uint8_T is_RUNNING_ERROR;            /* '<S3>/Chart' */
   uint8_T is_active_c1_governor_lib;   /* '<S3>/Chart' */
-  uint8_T is_c2_driver_interface_lib;  /* '<S2>/Chart' */
-  uint8_T is_DI_running;               /* '<S2>/Chart' */
-  uint8_T is_Ready_to_drive;           /* '<S2>/Chart' */
-  uint8_T is_active_c2_driver_interface_l;/* '<S2>/Chart' */
+  uint8_T is_c1_driver_interface_lib;  /* '<S2>/Chart1' */
+  uint8_T is_DI_running;               /* '<S2>/Chart1' */
+  uint8_T is_Ready_to_drive;           /* '<S2>/Chart1' */
+  uint8_T is_active_c1_driver_interface_l;/* '<S2>/Chart1' */
   uint8_T is_c5_battery_monitor_lib;   /* '<S1>/Chart1' */
   uint8_T is_active_c5_battery_monitor_li;/* '<S1>/Chart1' */
   uint8_T is_c4_battery_monitor_lib;   /* '<S1>/Chart' */
   uint8_T is_active_c4_battery_monitor_li;/* '<S1>/Chart' */
-  boolean_T b_ReadyToDrive;            /* '<S2>/Chart' */
+  boolean_T b_ReadyToDrive;            /* '<S2>/Chart1' */
 } DW;
 
 /* Invariant block signals (default storage) */
@@ -202,11 +204,6 @@ typedef struct {
    * Referenced by: '<S2>/AccelPedalPos1 LUT'
    */
   real32_T AccelPedalPos1LUT_bp01Data[100];
-
-  /* Pooled Parameter (Expression: [0 5 10 15 20 25 30 35 40 45 50 55 60 65 70 75 80 85 90 95 100])
-   * Referenced by: '<S2>/BrakePedalPos1 LUT1'
-   */
-  real32_T pooled8[21];
 
   /* Computed Parameter: pedaltotorque_tableData
    * Referenced by: '<S5>/%pedal to %torque'
@@ -286,6 +283,7 @@ typedef struct {
   real32_T DI_b_brakeLightEn;          /* '<Root>/DI_b_brakeLightEn' */
   real_T DI_p_PWMstatusLightCycle;     /* '<Root>/DI_p_PWMstatusLightCycle' */
   real_T DI_p_PWMstatusLightFreq;      /* '<Root>/DI_p_PWMstatusLightFreq' */
+  real32_T GOV_e_govSts;               /* '<Root>/GOV_e_govSts' */
 } ExtY;
 
 /* Real-time Model Data Structure */
@@ -354,7 +352,7 @@ extern RT_MODEL *const rtM;
  * '<S6>'   : 'controller_autogen/battery_monitor/Chart'
  * '<S7>'   : 'controller_autogen/battery_monitor/Chart1'
  * '<S8>'   : 'controller_autogen/driver_interface/Accelerator plausibility check'
- * '<S9>'   : 'controller_autogen/driver_interface/Chart'
+ * '<S9>'   : 'controller_autogen/driver_interface/Chart1'
  * '<S10>'  : 'controller_autogen/driver_interface/If Action Subsystem'
  * '<S11>'  : 'controller_autogen/driver_interface/If Action Subsystem1'
  * '<S12>'  : 'controller_autogen/driver_interface/If Action Subsystem2'
