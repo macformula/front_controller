@@ -23,11 +23,11 @@
 *                       DEFINES
 *********************************************************/
 
-#define DEBUG_MODE 1
+#define DEBUG_MODE 0
 
 // ADC:
 #define NUM_ADC_CHANNELS 					(4)
-#define ADC_ROLLING_AVG_WIN_SIZE 			(10)
+#define ADC_ROLLING_AVG_WIN_SIZE 			(3)
 
 #define ADC1_NUM_CHANNELS 					(4)
 

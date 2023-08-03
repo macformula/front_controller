@@ -711,10 +711,15 @@ void transmitToBMS() {
 }
 
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) {
-	TeCanALRet ret = CanAL_Receive(&pt1_can);
-	if (ret != CANAL_OK) {
-		CANAL_PRINT("Could not recognize message\n\r");
-	}
+//	TeCanALRet ret;
+//	if (hcan->Instance == PT1_CAN_INST) {
+//		ret = CanAL_Receive(&pt1_can);
+//	} else if (hcan->Instance == VEH_CAN_INST) {
+//		ret = CanAL_Receive(&veh_can);
+//	}
+//	if (ret != CANAL_OK) {
+//		CANAL_PRINT("Could not recognize message\n\r");
+//	}
 }
 
 void getRollingAvg(uint16_t* data_points, uint16_t* output_averages)
