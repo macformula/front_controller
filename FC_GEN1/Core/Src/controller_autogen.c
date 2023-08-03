@@ -9,7 +9,7 @@
  *
  * Model version                  : 1.39
  * Simulink Coder version         : 9.8 (R2022b) 13-May-2022
- * C/C++ source code generated on : Mon Jul 31 13:29:08 2023
+ * C/C++ source code generated on : Wed Aug  2 21:15:06 2023
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex-M
@@ -84,6 +84,7 @@
 #define IN_STARTUP                     ((uint8_T)4U)
 #define IN_STARTUP_ERROR               ((uint8_T)5U)
 #define IN_Send_ReadyToDrive           ((uint8_T)3U)
+#define IN_bmOff                       ((uint8_T)6U)
 
 /* Named constants for Chart: '<S5>/Chart' */
 #define IN_Run                         ((uint8_T)1U)
@@ -456,8 +457,8 @@ void controller_autogen_step(void)
 {
   int32_T i;
   real32_T rtb_VectorConcatenate[11];
-  real32_T rtb_AccelPedalPos1LUT;
-  real32_T rtb_Gain;
+  real32_T rtb_Gain_c;
+  real32_T rtb_Merge;
   boolean_T rtb_NOT2_i;
   boolean_T rtb_NOT_g;
   boolean_T rtb_b_DriverInterfaceError;
@@ -481,6 +482,7 @@ void controller_autogen_step(void)
   } else {
     switch (rtDW.is_c1_governor_lib) {
      case IN_Initialize_outputs:
+      rtDW.GOV_e_bmCmd = 0U;
       rtDW.GOV_e_diCmd = DI_CMD_INIT;
       rtDW.GOV_e_govSts = GOV_INIT;
       if (rtDW.Delay2_DSTATE_a == DRV_START_REQ) {
@@ -492,29 +494,20 @@ void controller_autogen_step(void)
 
      case IN_RUNNING:
       rtDW.GOV_e_govSts = GOV_RUNNING;
-      if (rtDW.Delay_DSTATE_f == ERR_RUNNING) {
+      if (rtDW.Delay1_DSTATE == OFF) {
+        rtDW.is_c1_governor_lib = IN_bmOff;
+        rtDW.GOV_e_bmCmd = 1U;
+        rtDW.GOV_e_miCmd = CMD_INIT;
+      } else if (rtDW.Delay_DSTATE_f == ERR_RUNNING) {
         rtDW.is_c1_governor_lib = IN_RUNNING_ERROR;
         rtDW.is_RUNNING_ERROR = IN_HV_run_error;
         rtDW.GOV_e_diCmd = SYSTEM_ERROR;
         rtDW.GOV_e_govSts = HV_RUN_ERROR;
-      } else {
-        switch (rtDW.Delay1_DSTATE) {
-         case MI_STS_ERROR:
-          rtDW.is_c1_governor_lib = IN_RUNNING_ERROR;
-          rtDW.is_RUNNING_ERROR = IN_Motor_run_error;
-          rtDW.GOV_e_diCmd = SYSTEM_ERROR;
-          rtDW.GOV_e_govSts = MOTOR_RUN_ERROR;
-          break;
-
-         case OFF:
-          rtDW.is_c1_governor_lib = IN_Initialize_outputs;
-          rtDW.GOV_e_bmCmd = 0U;
-          rtDW.GOV_e_miCmd = CMD_INIT;
-          rtDW.GOV_e_diCmd = DI_CMD_INIT;
-          rtDW.motorStartCount = 0U;
-          rtDW.GOV_e_govSts = GOV_INIT;
-          break;
-        }
+      } else if (rtDW.Delay1_DSTATE == MI_STS_ERROR) {
+        rtDW.is_c1_governor_lib = IN_RUNNING_ERROR;
+        rtDW.is_RUNNING_ERROR = IN_Motor_run_error;
+        rtDW.GOV_e_diCmd = SYSTEM_ERROR;
+        rtDW.GOV_e_govSts = MOTOR_RUN_ERROR;
       }
       break;
 
@@ -593,8 +586,7 @@ void controller_autogen_step(void)
       }
       break;
 
-     default:
-      /* case IN_STARTUP_ERROR: */
+     case IN_STARTUP_ERROR:
       switch (rtDW.is_STARTUP_ERROR) {
        case IN_DriverInterface_Error:
         rtDW.GOV_e_govSts = GOV_DI_ERROR;
@@ -621,6 +613,16 @@ void controller_autogen_step(void)
         break;
       }
       break;
+
+     default:
+      /* case IN_bmOff: */
+      rtDW.is_c1_governor_lib = IN_Initialize_outputs;
+      rtDW.GOV_e_bmCmd = 0U;
+      rtDW.GOV_e_miCmd = CMD_INIT;
+      rtDW.GOV_e_diCmd = DI_CMD_INIT;
+      rtDW.motorStartCount = 0U;
+      rtDW.GOV_e_govSts = GOV_INIT;
+      break;
     }
   }
 
@@ -642,7 +644,7 @@ void controller_autogen_step(void)
    *  Inport: '<Root>/DI_V_AccelPedalPos1'
    *  Product: '<S18>/Divide'
    */
-  rtb_Gain = (real32_T)rtU.DI_V_AccelPedalPos1 / 4095.0F * 100.0F;
+  rtb_Gain_c = (real32_T)rtU.DI_V_AccelPedalPos1 / 4095.0F * 100.0F;
 
   /* Logic: '<S2>/b_DriverInterfaceError' incorporates:
    *  Abs: '<S8>/Abs'
@@ -662,7 +664,7 @@ void controller_autogen_step(void)
    *  Sum: '<S8>/Subtract'
    */
   rtb_b_DriverInterfaceError = (rtb_NOT_g || ((!(rtU.DI_V_AccelPedalPos2 >= 0.0))
-    || (!(rtU.DI_V_AccelPedalPos2 <= 4095.0))) || (fabsf(rtb_Gain - (real32_T)
+    || (!(rtU.DI_V_AccelPedalPos2 <= 4095.0))) || (fabsf(rtb_Gain_c - (real32_T)
     rtU.DI_V_AccelPedalPos2 / 4095.0F * 100.0F) > 10.0F));
 
   /* Chart: '<S2>/Chart1' incorporates:
@@ -839,6 +841,12 @@ void controller_autogen_step(void)
 
   /* End of Chart: '<S2>/Chart1' */
 
+  /* Lookup_n-D: '<S2>/AccelPedalPos1 LUT' incorporates:
+   *  Gain: '<S18>/Gain'
+   */
+  rtb_Gain_c = look1_iflf_binlc(rtb_Gain_c, rtConstP.AccelPedalPos1LUT_bp01Data,
+    rtConstP.AccelPedalPos1LUT_tableData, 99U);
+
   /* If: '<S2>/If' incorporates:
    *  Logic: '<S2>/NOT'
    *  Logic: '<S2>/OR1'
@@ -850,7 +858,7 @@ void controller_autogen_step(void)
     /* SignalConversion generated from: '<S10>/In1' incorporates:
      *  Constant: '<S2>/Constant'
      */
-    rtb_Gain = 0.0F;
+    rtb_Merge = 0.0F;
 
     /* End of Outputs for SubSystem: '<S2>/If Action Subsystem' */
   } else if (rtb_NOT_g) {
@@ -860,40 +868,38 @@ void controller_autogen_step(void)
     /* SignalConversion generated from: '<S12>/In1' incorporates:
      *  Constant: '<S2>/Constant'
      */
-    rtb_Gain = 0.0F;
+    rtb_Merge = 0.0F;
 
     /* End of Outputs for SubSystem: '<S2>/If Action Subsystem2' */
+  } else {
+    /* Outputs for IfAction SubSystem: '<S2>/If Action Subsystem1' incorporates:
+     *  ActionPort: '<S11>/Action Port'
+     */
+    /* SignalConversion generated from: '<S11>/In1' */
+    rtb_Merge = rtb_Gain_c;
+
+    /* End of Outputs for SubSystem: '<S2>/If Action Subsystem1' */
   }
 
   /* End of If: '<S2>/If' */
-
-  /* Lookup_n-D: '<S2>/AccelPedalPos1 LUT' incorporates:
-   *  Sum: '<S29>/Sum of Elements'
-   */
-  rtb_AccelPedalPos1LUT = look1_iflf_binlc(rtb_Gain,
-    rtConstP.AccelPedalPos1LUT_bp01Data, rtConstP.AccelPedalPos1LUT_tableData,
-    99U);
 
   /* Chart: '<S5>/Chart' */
   if (rtDW.is_active_c3_simp_vd_lib == 0U) {
     rtDW.is_active_c3_simp_vd_lib = 1U;
     rtDW.is_c3_simp_vd_lib = IN_Run;
-    rtb_Gain = rtb_AccelPedalPos1LUT;
-  } else if (rtDW.is_c3_simp_vd_lib == IN_Run) {
-    rtb_Gain = rtb_AccelPedalPos1LUT;
-
+  } else if (rtDW.is_c3_simp_vd_lib != IN_Run) {
     /* case IN_Stop: */
-  } else if (rtb_AccelPedalPos1LUT < 5.0F) {
-    rtDW.is_c3_simp_vd_lib = IN_Run;
-    rtb_Gain = rtb_AccelPedalPos1LUT;
-  } else {
-    rtb_Gain = 0.0F;
+    if (rtb_Merge < 5.0F) {
+      rtDW.is_c3_simp_vd_lib = IN_Run;
+    } else {
+      rtb_Merge = 0.0F;
+    }
   }
 
   /* End of Chart: '<S5>/Chart' */
 
   /* Lookup_n-D: '<S5>/%pedal to %torque' */
-  rtDW.pedaltotorque = look1_iflf_binlx(rtb_Gain,
+  rtDW.pedaltotorque = look1_iflf_binlx(rtb_Merge,
     rtConstP.pedaltotorque_bp01Data, rtConstP.pedaltotorque_tableData, 100U);
 
   /* SignalConversion generated from: '<S29>/Vector Concatenate' */
@@ -907,9 +913,9 @@ void controller_autogen_step(void)
   /* End of S-Function (sfix_udelay): '<S29>/Tapped Delay' */
 
   /* Sum: '<S29>/Sum of Elements' */
-  rtb_Gain = -0.0F;
+  rtb_Merge = -0.0F;
   for (i = 0; i < 11; i++) {
-    rtb_Gain += rtb_VectorConcatenate[i];
+    rtb_Merge += rtb_VectorConcatenate[i];
   }
 
   real_T rtb_Divide;
@@ -917,7 +923,7 @@ void controller_autogen_step(void)
   /* End of Sum: '<S29>/Sum of Elements' */
 
   /* Product: '<S29>/Divide' */
-  rtb_Divide = rtb_Gain / 11.0;
+  rtb_Divide = rtb_Merge / 11.0;
 
   /* Chart: '<S4>/RIGHT_MOTOR' incorporates:
    *  DataTypeConversion: '<S4>/Cast To Single1'
@@ -1261,7 +1267,7 @@ void controller_autogen_step(void)
   rtDW.Delay2_DSTATE = rtb_Switch;
 
   /* Update for Delay: '<S2>/Delay3' */
-  rtDW.Delay3_DSTATE = rtb_AccelPedalPos1LUT;
+  rtDW.Delay3_DSTATE = rtb_Gain_c;
 
   /* Update for S-Function (sfix_udelay): '<S29>/Tapped Delay' */
   for (i = 0; i < 9; i++) {
