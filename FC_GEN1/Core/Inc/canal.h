@@ -139,6 +139,7 @@ typedef struct {
 // CanAL_Init initializes CAN hardware and must be called with successful return
 // before any other CAN functions
 TeCanALRet CanAL_Init(TsCanAL* can);
+TeCanALRet CanAL_Init3(TsCanAL* can);
 // CanAL_Receive is meant to be called in HAL_CAN_RxFifo0MsgPendingCallback
 TeCanALRet CanAL_Receive(TsCanAL* can);
 // TODO: CanAL_Transmit will send the global message struct associated with the
