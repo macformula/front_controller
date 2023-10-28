@@ -93,8 +93,11 @@ CONTAINER_RUN = $(WIN_PREFIX) $(CONTAINER_TOOL) run \
 				--hostname $(CONTAINER_NAME) \
 				$(IMAGE_NAME)
 
-build-container: $(NEED_IMAGE)
+build-container: get-submodules $(NEED_IMAGE)
 	$(CONTAINER_RUN) bash -lc 'make -j$(shell nproc)'
+
+get-submodules:
+	git submodule update --init --recursive
 
 format-container:
 	$(CONTAINER_RUN) bash -lc 'make format -j$(shell nproc)'
