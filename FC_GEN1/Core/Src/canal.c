@@ -171,6 +171,16 @@ TeCanALRet CanAL_Init(TsCanAL* can) {
 	return ret;
 }
 
+TeCanALRet CanAL_Init3(TsCanAL* can) {
+	TeCanALRet ret = CANAL_OK;
+
+	if (HAL_CAN_Start(can->hcan) != HAL_OK) return CANAL_START_FAILED;
+
+	if (HAL_CAN_ActivateNotification(can->hcan, CAN_IT_RX_FIFO0_MSG_PENDING)
+		!= HAL_OK) return CANAL_ERROR;
+
+	return ret;
+}
 
 
 TeCanALRet CanAL_Receive(TsCanAL* can) {
