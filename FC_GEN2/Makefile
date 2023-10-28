@@ -55,6 +55,9 @@ DEVICE ?= STM32F767ZI
 flash: build
 	st-flash --reset write $(FIRMWARE) 0x08000000
 
+flash-container: build-container
+	st-flash --reset write $(FIRMWARE) 0x08000000
+
 clean:
 	rm -rf $(BUILD_DIR)
 
