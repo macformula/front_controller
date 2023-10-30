@@ -13,7 +13,7 @@ Press enter to skip each prompt and use the default settings.
 
 Copy the contents of the newly generated `id_rsa.pub` file and navigate to the settings of your GitHub account. In the SSH and GPG keys tab, click New SSH key and add the string that you copied.
 
-Ensure that the Modules directory in the FC_GEN2 project folder has the appropriate submodules. If not, enter the following command to pull them from GitHub:
+Ensure you have updated all your Git submodules. The `build-container` command will do this automatically, but this will also help Intellisense resolve symbols.
 
 `git submodule update --init --recursive`
 
