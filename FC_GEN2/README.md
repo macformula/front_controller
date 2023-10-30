@@ -38,4 +38,27 @@ I have provided a [document](docs/tools.md), where I write about tools and comma
 
 ## Extra code tips
 
-I have provided a [document](docs/code-tips.md), where I write about useful options for writing and debugging code.  
+I have provided a [document](docs/code-tips.md), where I write about useful options for writing and debugging code. 
+
+# Macbook Building and Flashing 
+
+Required downloads: 
+- Docker - https://www.docker.com/products/docker-desktop/
+- Cmake (add to path) - https://cmake.org/download/ 
+- GCC Arm (add to path) - https://developer.arm.com/downloads/-/gnu-rm
+- Git submodules - `git submodule update --init --recursive`
+- Docker (not needed as we are not doing build container) - https://www.docker.com/products/docker-desktop/
+
+Changes:
+1. Makefile: Set “BUILD_SYSTEM ?= Unix Makefiles”
+2. CMakeLists.txt: Delete all references of "-Wformat-truncatio"
+3. CMakeLists.txt: Delete all references of "--print-memory-usage" 
+
+Commands: 
+- make cmake 
+- make build 
+- make flash
+
+make build-container currently not possible - working to get docker instructions for Mac
+
+
