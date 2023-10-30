@@ -1,3 +1,24 @@
+# Windows 10 Building and Flashing
+
+Required downloads:
+- WSL2
+- Docker - https://www.docker.com/products/docker-desktop/
+- Make - https://cmake.org/download/
+- Stlink - https://github.com/stlink-org/stlink
+
+Add your public SSH key to your GitHub profile.
+
+Navigate to the `~/.ssh/` directory on your machine and enter the command `ssh-keygen`.
+Press enter to skip each prompt and use the default settings.
+
+Copy the contents of the newly generated `id_rsa.pub` file and navigate to the settings of your GitHub account. In the SSH and GPG keys tab, click New SSH key and add the string that you copied.
+
+Ensure that the Modules directory in the FC_GEN2 project folder has the appropriate submodules. If not, enter the following command to pull them from GitHub:
+
+`git submodule update --init --recursive`
+
+---
+
 # STM32 project template
 
 This repository holds all the possible tools and templates for building and developing STM32 projects.  
