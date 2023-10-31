@@ -40,7 +40,7 @@ I have provided a [document](docs/tools.md), where I write about tools and comma
 
 I have provided a [document](docs/code-tips.md), where I write about useful options for writing and debugging code. 
 
-# Macbook Building and Flashing 
+## Macbook Building and Flashing 
 
 Required downloads: 
 - Docker - https://www.docker.com/products/docker-desktop/
