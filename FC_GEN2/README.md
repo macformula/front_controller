@@ -1,21 +1,7 @@
-# Windows 10 Building and Flashing
+# Local Setup Documentation
 
-Required downloads:
-- WSL2
-- Docker - https://www.docker.com/products/docker-desktop/
-- Make - https://cmake.org/download/
-- Stlink - https://github.com/stlink-org/stlink
-
-Add your public SSH key to your GitHub profile.
-
-Navigate to the `~/.ssh/` directory on your machine and enter the command `ssh-keygen`.
-Press enter to skip each prompt and use the default settings.
-
-Copy the contents of the newly generated `id_rsa.pub` file and navigate to the settings of your GitHub account. In the SSH and GPG keys tab, click New SSH key and add the string that you copied.
-
-Ensure you have updated all your Git submodules. The `build-container` command will do this automatically, but this will also help Intellisense resolve symbols.
-
-`git submodule update --init --recursive`
+- [Git Setup](./docs/setup-git.md)
+- [Windows Setup](./docs/setup-windows.md)
 
 ---
 
