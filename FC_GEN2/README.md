@@ -1,3 +1,10 @@
+# Local Setup Documentation
+
+- [Git Setup](./docs/setup-git.md)
+- [Windows Setup](./docs/setup-windows.md)
+
+---
+
 # STM32 project template
 
 This repository holds all the possible tools and templates for building and developing STM32 projects.  
