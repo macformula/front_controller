@@ -1,4 +1,4 @@
-name: Go Build and Run
+name: HIL
 
 on:
   pull_request:
@@ -10,7 +10,7 @@ env:
   TIMEOUT: 60
 
 jobs:
-  build:
+  tests:
     runs-on: self-hosted
 
     outputs:
