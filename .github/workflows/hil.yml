@@ -21,11 +21,11 @@ jobs:
         id: ping
         run: |
           $uri = "http://localhost:8080"
-          $body = $env:GITHUB_ACTOR
-          $response = Invoke-WebRequest -Uri $uri -Method POST -Body $body -UseBasicParsing -TimeoutSec $env:TIMEOUT
+          $body = $GITHUB_ACTOR
+          $response = Invoke-WebRequest -Uri $uri -Method POST -Body $body -UseBasicParsing -TimeoutSec $TIMEOUT
           $status_code = $response.StatusCode
           echo "info: $status_code"
-          echo "status_code=$status_code" >> "$env:GITHUB_OUTPUT"
+          echo "status_code=$status_code" >> "$GITHUB_OUTPUT"
       
       - name: Get information on port
         id: pong
