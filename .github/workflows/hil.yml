@@ -1,10 +1,6 @@
 name: HIL
 
 on:
-  pull_request:
-    branches:
-      - '*'
-
   workflow_dispatch:
     permissions:
       users:
