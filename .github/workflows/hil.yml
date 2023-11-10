@@ -1,0 +1,43 @@
+name: Go Build and Run
+
+on:
+  pull_request:
+    branches:
+      - '*'
+
+env:
+  WORKSPACE: ${{ github.workspace }}
+  TIMEOUT: 60
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    outputs:
+      status_code: ${{ steps.ping.outputs.status_code }}
+
+    steps:
+      - name: Ping port 8080
+        id: ping
+        run: |
+          $uri = "http://localhost:8080"
+          $body = $env:GITHUB_ACTOR
+          $response = Invoke-WebRequest -Uri $uri -Method POST -Body $body -UseBasicParsing -TimeoutSec $env:TIMEOUT
+          $status_code = $response.StatusCode
+          echo "info: $status_code"
+          echo "status_code=$status_code" >> "$env:GITHUB_OUTPUT"
+      
+      - name: Get information on port
+        id: pong
+        run: |
+          echo "Information Returned from Test: ${{ steps.ping.outputs.status_code }}"
+
+      - name: Check status code
+        run: |
+          if (${{ steps.ping.outputs.status_code }} -ne 202) {
+            echo "HTTP request failed with status code ${{ steps.ping.outputs.status_code }}."
+            exit 1
+          } else {
+            echo "HTTP request successful with status code ${{ steps.ping.outputs.status_code }}."
+          }
+
