@@ -5,6 +5,14 @@ on:
     branches:
       - '*'
 
+  workflow_dispatch:
+    permissions:
+      users:
+        - itshady
+        - langei
+        - samparent97
+        - TylerStAmour
+
 env:
   WORKSPACE: ${{ github.workspace }}
   TIMEOUT: 60
