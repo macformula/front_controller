@@ -1,13 +1,9 @@
 name: HIL
 
 on:
-  workflow_dispatch:
-    permissions:
-      users:
-        - itshady
-        - langei
-        - samparent97
-        - TylerStAmour
+  pull_request:
+    branches:
+      - '*'
 
 env:
   WORKSPACE: ${{ github.workspace }}
