@@ -6,7 +6,7 @@ This document is a basic guide for setting up a Mac device to build and flash th
 
 - [Docker](https://www.docker.com/products/docker-desktop/) *Optional*
 - [CMake](https://cmake.org/download/)
-- [GCC Arm] (https://developer.arm.com/downloads/-/gnu-rm)
+- [GCC Arm](https://developer.arm.com/downloads/-/gnu-rm)
 
 GCC Arm and CMake should be added to your PATH. 
 
