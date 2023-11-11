@@ -1,6 +1,6 @@
 # Setting up a Macbook(M1/M2) to build and flash the FC_GEN2 project
 
-This document is a basic guide for setting up a Mac device to build and flash the FC_GEN2 project.
+This document is a basic guide for setting up a Mac device to build and flash the FC_GEN2 project. 
 
 ## Downloads
 
