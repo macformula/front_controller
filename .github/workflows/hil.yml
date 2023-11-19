@@ -1,0 +1,42 @@
+name: HIL
+
+on:
+  pull_request:
+    branches:
+      - '*'
+
+env:
+  WORKSPACE: ${{ github.workspace }}
+  TIMEOUT: 60
+
+jobs:
+  tests:
+    runs-on: self-hosted
+
+    outputs:
+      status_code: ${{ steps.ping.outputs.status_code }}
+
+    steps:
+      - name: Ping port 8080
+        id: ping
+        run: |
+          uri="http://localhost:8080"
+          body="$GITHUB_ACTOR"
+          response=$(curl -X POST -d "$body" -m $TIMEOUT -w "%{http_code}" $uri)
+          status_code=${response:-0}  # If the response is empty, set status_code to 0
+          echo "info: $status_code"
+          echo "status_code=$status_code" >> "$GITHUB_OUTPUT"
+      
+      - name: Get information on port
+        id: pong
+        run: |
+          echo "Information Returned from Test: ${{ steps.ping.outputs.status_code }}"
+
+      - name: Check status code
+        run: |
+          if [ "${{ steps.ping.outputs.status_code }}" -ne 202 ]; then
+            echo "HTTP request failed with status code ${{ steps.ping.outputs.status_code }}."
+            exit 1
+          else
+            echo "HTTP request successful with status code ${{ steps.ping.outputs.status_code }}."
+          fi
